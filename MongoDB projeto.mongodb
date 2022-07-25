@@ -1,0 +1,144 @@
+//Coleção chamada Filmes
+use('projeto')
+db.filmes.insertMany(
+[
+    {Nome: "Duna", 
+    Diretor: "Denis Villeuneve", 
+    Elenco:"Timothee Chalamet, Rebecca Ferguson, Zendaya",
+    Ano:2021,
+    Premios:0},
+
+    {nome:"Central do Brasil",
+    Diretor:"Walter Salles",
+    Elenco:"Fernanda Montenegro, Vinicius de Oliveira",
+    Ano:1998,
+    Premios:20},
+
+    {Nome:"Cidade dos Sonhos",
+    Diretor: "David Lynch",
+    Elenco:"Naomi Watts, Laura Helena Harring",
+    Ano:2001,
+    Premio:18},
+
+    {Nome:"king kong",
+    Diretor:"Peter Jackson",
+    Elenco:"Naomi Watts, Jack Black, Adrien Brody",
+    Ano:2005,
+    Premios:10},
+
+    {Nome:"Bela Vinganza",
+    Diretor:"Emerald Fennel",
+    Elenco:"Carey Mulligan, Bo Burnham",
+    Ano:2020,
+    Premios:22},
+
+    {Nome:"SDA: A Sociedade do Anel",
+    Diretor:"Peter Jackson",
+    Elenco:"Elijah Wood, Ian Mckellen, Liv Tyler",
+    Ano:2001,
+    Premios:15},
+
+    {Nome:"Shrek",
+    Diretor:"Andrew Adamson, Vicky Jenson",
+    Elenco:"Mike Myers, Eddie Murphy, Cameron Diaz",
+    Ano:2001,
+    Premios:10},
+
+    {Nome:"Cidade de Deus",
+    Diretor:"Fernando Meirelles, Katia Luind",
+    Elenco:"Alexandre Rodrigues, Leandro Firmino da Hora",
+    Ano:2002,
+    Premios:15},
+
+    {Nome:"Panico",
+    Diretor:"Wes Craven",
+    Elenco:"Neve Campbell, Courtney Cox, David Arquette",
+    Ano:1996,
+    Premios:6}
+]
+) 
+//pergunta 2
+db.filmes.find()
+use('projeto')
+db.filmes.find(
+  {Ano:{$gte:1997, $lte:2004}
+  }
+) 
+
+//pergunta 3
+use('projeto')
+db.filmes.find({
+  $or:[
+      {Ano: 2001},
+      {Nome: /^D/}]
+  }
+)
+
+//pergunta 4
+use('projeto')
+db.filmes.find(
+  {Diretor: {$in: ['Peter Jackson', 'Walter Salles']}
+  }
+)
+
+//pergunta 5
+use('projeto')
+db.filmes.find(
+  {$and: 
+    [
+        {Ano:{$gte:2002,$lte:2021}},
+        {Elenco:{$in:[/^Naomi Watts/, /^Carey Mulligan/]}}
+     ]
+  }, 
+{Elenco:1, Ano:1, _id:0 }
+)
+
+// pergunta 6
+use('projeto')
+db.filmes.find(
+  {$and: 
+    [
+        {Ano:{$gte:1996}}, 
+        {Ano:{$lte:2021}},
+        {Ano: {$not: {$gte:2001, $lte: 2005}}}
+    ]
+  }
+)
+
+//pergunta 7
+use('projeto')
+db.filmes.find(
+  {Ano:{$eq: 2001}
+ }).count()
+
+//pergunta 8
+use('projeto')
+db.filmes.distinct( "Elenco" )
+
+//pergunta 9
+use('projeto')
+ db.filmes.find(
+  {Ano:{$eq: 2001}},
+  {Diretor: 1, Nome: 1, _id:0 }
+ ).sort( { "Diretor": -1} ).limit(2)
+
+//pergunta 10
+use('projeto')
+  db.filmes.createIndex( { Ano: 1 } )
+
+//pergunta 11 
+use('projeto')
+db.filmes.aggregate(
+  [
+    {$group: 
+    {_id: null, totalAmount:{$sum:'$Premios'}}
+    }
+  ]
+)
+
+//pergunta 12
+use("sample_mflix")                                                                                                                                                                                                                        
+db.movies.aggregate([{
+$lookup:
+     {}        
+}])                                                                                                                                                                                                                                                                                 
